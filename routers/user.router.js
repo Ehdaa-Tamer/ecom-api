@@ -3,7 +3,6 @@ const userController = require("../controllers/user.controller");
 
 const router = express.Router();
 
-// Basic CRUD
 router.get("/", userController.getUsers);
 router.get("/:id",userController.protect, userController.getUserById);
 

@@ -6,10 +6,9 @@ exports.createCartItem = async (req, res) => {
   try {
     const cartItem = await CartItem.create(req.body);
 
-    // Add the new cart item _id to the cart's items array
     await Cart.findByIdAndUpdate(
       req.body.cartId,
-      { $addToSet: { items: cartItem._id } }, // prevent duplicates
+      { $addToSet: { items: cartItem._id } }, 
       { new: true }
     );
 
@@ -19,7 +18,7 @@ exports.createCartItem = async (req, res) => {
   }
 };
 
-// Create many cart items and update each related cart's items array
+// Create many cart items 
 exports.createManyCartItems = async (req, res) => {
   try {
     const cartItems = await CartItem.insertMany(req.body);
@@ -48,7 +47,7 @@ exports.createManyCartItems = async (req, res) => {
   }
 };
 
-// Get all cart items, populating product and quantity
+// Get all cart items
 exports.getAllCartItems = async (req, res) => {
   try {
     const cartItems = await CartItem.find().populate("productId cartId");
@@ -58,7 +57,7 @@ exports.getAllCartItems = async (req, res) => {
   }
 };
 
-// Get a single cart item by ID with populated fields
+// Get a single cart item 
 exports.getCartItemById = async (req, res) => {
   try {
     const cartItem = await CartItem.findById(req.params.id).populate("productId cartId");
@@ -83,13 +82,12 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
-// Delete a cart item and remove it from the cart
+// Delete a cart item 
 exports.deleteCartItem = async (req, res) => {
   try {
     const cartItem = await CartItem.findByIdAndDelete(req.params.id);
     if (!cartItem) return res.status(404).json({ error: "CartItem not found" });
 
-    // Remove the deleted item from the cart's items array
     await Cart.findByIdAndUpdate(cartItem.cartId, {
       $pull: { items: cartItem._id },
     });

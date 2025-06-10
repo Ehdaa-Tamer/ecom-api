@@ -20,7 +20,7 @@ exports.getAllProducts = catchAsync(async (req, res) => {
   });
 });
 
-// GET product by ID
+
 exports.getProductById = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate("categoryId", "title");
   if (!product) return next(new AppError("Product not found", 404));
@@ -29,7 +29,7 @@ exports.getProductById = catchAsync(async (req, res, next) => {
 });
 
 
-// GET product reviews by product ID
+
 exports.getProductReviews = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id).select("reviews");
   if (!product) return next(new AppError("Product not found", 404));
@@ -37,14 +37,14 @@ exports.getProductReviews = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "success", data: product.reviews });
 });
 
-// POST create a single product
+
 exports.createProduct = catchAsync(async (req, res) => {
   const product = await Product.create(req.body);
 
   res.status(201).json({ status: "success", data: product });
 });
 
-// POST add many products at once
+
 exports.addManyProducts = catchAsync(async (req, res, next) => {
   const products = req.body.products;
 
@@ -61,7 +61,7 @@ exports.addManyProducts = catchAsync(async (req, res, next) => {
   });
 });
 
-// PATCH update product
+
 exports.updateProduct = catchAsync(async (req, res, next) => {
   const updatedProduct = await Product.findByIdAndUpdate(
     req.params.id,
@@ -74,7 +74,7 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "success", data: updatedProduct });
 });
 
-// DELETE product
+
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   const deleted = await Product.findByIdAndDelete(req.params.id);
   if (!deleted) return next(new AppError("Product not found", 404));

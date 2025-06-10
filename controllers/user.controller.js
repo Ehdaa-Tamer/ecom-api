@@ -102,7 +102,7 @@ exports.getUserById = async (req, res) => {
 
 
 
-// Helper: Sign JWT Token
+// Sign JWT Token
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -214,7 +214,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// @route   GET /api/auth/logout
+
 exports.logout = (req, res) => {
   console.log("🚪 Logout triggered");
 
@@ -262,7 +262,7 @@ exports.deleteUser = async (req, res) => {
       return res.status(404).json({ status: "fail", message: "User not found" });
     }
 
-    res.status(204).json(); // No Content
+    res.status(204).json(); 
   } catch (error) {
     res.status(500).json({
       status: "fail",

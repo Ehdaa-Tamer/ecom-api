@@ -6,10 +6,8 @@ exports.createReview = async (req, res) => {
   try {
     const { content, rating, productId, userId } = req.body;
 
-    // Create the review
     const review = await Review.create({ content, rating, productId, userId });
 
-    // Push the review ID into the product's reviews array
     await Product.findByIdAndUpdate(productId, {
       $push: { reviews: review._id },
     });
@@ -32,7 +30,6 @@ exports.deleteReview = async (req, res) => {
       return res.status(404).json({ success: false, message: "Review not found" });
     }
 
-    // Remove the review ID from the product's reviews array
     await Product.findByIdAndUpdate(review.productId, {
       $pull: { reviews: review._id },
     });
@@ -49,7 +46,6 @@ exports.updateReview = async (req, res) => {
     const { content, rating } = req.body;
     const { id } = req.params;
 
-    // Find and update the review
     const review = await Review.findByIdAndUpdate(
       id,
       { content, rating },
